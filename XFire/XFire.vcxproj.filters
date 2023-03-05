@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\GraphicsLibrary">
+      <UniqueIdentifier>{da108f86-4d62-43cb-ad4d-91e039abaf7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\GraphicsLibrary\Effect">
+      <UniqueIdentifier>{3cb091dd-8e65-4f02-b03a-626be93fda80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\GraphicsLibrary\Shader">
+      <UniqueIdentifier>{df709e91-66dd-4a9b-883e-6ee4e23164af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -42,6 +51,15 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Sync.ixx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.ixx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsObject.ixx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute.ixx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

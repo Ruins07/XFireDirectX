@@ -136,7 +136,10 @@
     <ClInclude Include="XFire.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Compute.ixx" />
+    <ClCompile Include="Engine.ixx" />
     <ClCompile Include="Graphics.ixx" />
+    <ClCompile Include="GraphicsObject.ixx" />
     <ClCompile Include="Memory.ixx" />
     <ClCompile Include="Sync.ixx" />
     <ClCompile Include="Window.ixx" />

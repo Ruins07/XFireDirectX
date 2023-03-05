@@ -1,4 +1,5 @@
 export module Sync;
+import Memory;
 
 export template<typename T>
 struct Handler {
@@ -9,10 +10,18 @@ export namespace ASync {
 	template<typename T>
 	struct DelayResult {
 		virtual bool Ready();
-		virtual T Wait(bool ThreadWait = false);
-		virtual T Await();
-		virtual T ASync(Handler<T> Handler);
+		virtual T Wait();
+		virtual T Await(bool ThisPointReturn = true);
+		virtual T ASync(ref<Handler<T>> Handler);
 	};
 	template<typename T>
 	using Delay = DelayResult<T>;
+
+	struct TaskPool {
+		template<typename T>
+		struct Task {
+			Delay<T> Item;
+			bool Async = false, MultiCore = false;
+		};
+	};
 }
