@@ -107,6 +107,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,11 +137,12 @@
     <ClInclude Include="XFire.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Arithmetic.ixx" />
     <ClCompile Include="Compute.ixx" />
     <ClCompile Include="Engine.ixx" />
     <ClCompile Include="Graphics.ixx" />
-    <ClCompile Include="GraphicsObject.ixx" />
     <ClCompile Include="Memory.ixx" />
+    <ClCompile Include="Sort.ixx" />
     <ClCompile Include="Sync.ixx" />
     <ClCompile Include="Window.ixx" />
     <ClCompile Include="XFire.cpp" />

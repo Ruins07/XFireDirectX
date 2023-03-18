@@ -32,6 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_XFIRE, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
+
     // Выполнить инициализацию приложения:
     if (!InitInstance (hInstance, nCmdShow))
     {

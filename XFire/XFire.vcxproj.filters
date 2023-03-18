@@ -22,6 +22,12 @@
     <Filter Include="Исходные файлы\GraphicsLibrary\Shader">
       <UniqueIdentifier>{df709e91-66dd-4a9b-883e-6ee4e23164af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\GraphicsLibrary\Material">
+      <UniqueIdentifier>{04f15ae9-e16d-4551-993b-6199415ac71e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Game">
+      <UniqueIdentifier>{8eb54f62-67ae-432c-b72c-fb830fe2844f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -53,13 +59,16 @@
     <ClCompile Include="Sync.ixx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.ixx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsObject.ixx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Compute.ixx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Arithmetic.ixx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.ixx">
+      <Filter>Исходные файлы\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Sort.ixx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

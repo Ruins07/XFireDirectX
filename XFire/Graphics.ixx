@@ -1,5 +1,8 @@
 #include <d3d12.h>
 #include <dxgi.h>
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3dcompiler.lib")
 
 export module Graphics;
 import Memory;
@@ -95,7 +98,7 @@ export namespace Graphics {
                 swapChainDesc.Windowed = !Settings->FullWindow;
             D3D12CreateDevice(
                 NULL,
-                D3D_FEATURE_LEVEL_11_0,
+                D3D_FEATURE_LEVEL_12_0,
                 IID_PPV_ARGS(&Context->Device)
             );
             /*Command Queue*/
@@ -137,7 +140,7 @@ export namespace Graphics {
                     );
                 Context->Device->
                     CreateRenderTargetView(
-                        Context->Frames[i].RenderTarget, 
+                        Context->Frames[i].RenderTarget,
                         nullptr, 
                         rtvHandle
                     );
@@ -174,6 +177,8 @@ export namespace Graphics {
                 CurrentFrame.FenceCounter = 0;
                 CurrentFrame.FenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
             }
+            CurrentContext->RenderContext = Context;
+            return CurrentContext;
 		}
 	};
     struct Render {
@@ -196,8 +201,5 @@ export namespace Graphics {
             Context->RenderContext->GPUFramesClear[FrameNumber] = true;
             Context->RenderContext->GPUFramesClear.Count++;
         }
-    };
-    struct RenderTask {
-        short Model, Material;
     };
 }

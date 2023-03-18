@@ -8,4 +8,11 @@ export namespace Compute {
 			Pow, Log
 		} Operation;
 	};
+
+	enum ValueFormat {
+		Boolean,
+		Unsigned,
+		Signed,
+		Floating
+	};
 }
