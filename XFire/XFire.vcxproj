@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Arithmetic.ixx" />
     <ClCompile Include="Compute.ixx" />
+    <ClCompile Include="Effect.ixx" />
     <ClCompile Include="Engine.ixx" />
     <ClCompile Include="Graphics.ixx" />
     <ClCompile Include="Memory.ixx" />

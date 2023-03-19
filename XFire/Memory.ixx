@@ -1,5 +1,6 @@
-import <CMath>;
 export module Memory;
+import <CMath>;
+import <initializer_list>;
 
 export {
 	using byte = unsigned char;
@@ -10,7 +11,6 @@ export {
 
 	template<typename T = void>
 	using ImmidiateValue = ref<ref<T>>;
-
 	template<typename T>
 	ImmidiateValue<void> Unified(ImmidiateValue<T> Specific) {
 		return const_cast<ImmidiateValue<void>>(Specific);
@@ -34,8 +34,8 @@ export {
 	};
 	template<typename T>
 	struct IPass {
-		virtual ref<T> Item(int Step = 1, bool Next = false);
-		virtual void Next(int Skip = 1);
+		virtual ref<T> Item(int Step = 1, int SkipNext = 0) = 0;
+		virtual int Next(int Skip = 1) = 0;
 	};
 	template<typename T>
 	struct Array {
@@ -61,4 +61,17 @@ export {
 	};
 	using string = ref<Array<char>>;
 	using Data = Array<byte>;
+
+	template<typename T>
+	struct Entry: Array<T> {
+		Entry(int Size = 0)
+			: Array<T>(0) {
+		}
+		Entry(ref<T> Item) {
+			this->Items = Item;
+			this->Size = 1;
+		}
+
+		bool One() { return this->Size == 1; }
+	};
 }
