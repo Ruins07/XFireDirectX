@@ -83,14 +83,25 @@ export namespace Effects {
 
 	};
 	struct EffectType { virtual ref<RenderPass> RenderPass() = 0; };
-	struct Effect { };
+	struct Effect { }; /*Mean properties*/
 	struct EffectRecord { //sometimes u may be need hold effect data with its type
 		ref<EffectType> Type;
 		ref<Effect> Effect;
 	};
-	
 	struct LevelEffectLibrary {
 		ref<ref<Effect>> Effect;
+		Array<ref<EffectType>> Type;
+
+		void Add(ref<Effects::Effect> Effect, 
+				 ref<Effects::EffectType> Type) {
+
+		}
+		void RemoveType(int Ordinal) {
+
+		}
+		void RemoveEffect(int TypeOrdinal, int Index) {
+
+		}
 	};
 	struct LevelEffectObject {
 		int Ordinal;

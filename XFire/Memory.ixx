@@ -9,6 +9,10 @@ export {
 	template<typename T = void>
 	using ref = T*;
 
+	void Move(ref<byte> Src, ref<byte> Dst, int Size) {
+		for (int I = 0; I < Size; I++) Dst[I] = Src[I];
+	}
+
 	template<typename T = void>
 	using ImmidiateValue = ref<ref<T>>;
 	template<typename T>
@@ -47,6 +51,13 @@ export {
 			if (Size > 0) Items = new T[Size];
 			else Items = nullptr;
 		}
+		Array(ref<Array> Src, int NewSize) {
+			Items = new T[NewSize];
+			Move(Src->Items, Items, NewSize * sizeof(T));
+		}
+		~Array() {
+			delete Items;
+		}
 		T& Item(int Index) {
 			return Items[Index];
 		}
@@ -54,10 +65,6 @@ export {
 			return Item(Index);
 		}
 		bool Empty() { return Size != 0; }
-	};
-	template<typename T>
-	struct CountableArray: Array<T> {
-		int Count = 0;
 	};
 	using string = ref<Array<char>>;
 	using Data = Array<byte>;
@@ -71,7 +78,42 @@ export {
 			this->Items = Item;
 			this->Size = 1;
 		}
-
+		operator T() {
+			#ifdef Debug
+			if (!One()) throw;
+			#endif
+			return this[0];
+		}
 		bool One() { return this->Size == 1; }
+	};
+	template<typename T>
+	struct Pool {
+		Array<T> Storage = Array<T>();
+		void Add(Entry<T> Data) {
+			if (Storage.Size == 0)
+				Storage = Array<T>(Data.Size);
+			else {
+				auto OldSize = Storage.Size;
+				Storage = Array<T>(Storage, OldSize + Data.Size);
+				Move(Data.Items, Storage.Items[OldSize], Data.Size * sizeof(T))
+			}
+		}
+		void Remove(Entry<int> Index, bool Sort = true) {
+			int LastValuesCounter = 0;
+			for (int I = Index.Size - 1; I >= 0; I--)
+				if (Index[I] >
+					Storage.Size - Index.Size - LastValuesCounter)
+					LastValuesCounter++;
+			for (int I = 0; I < Index.Size;) {
+				int SrcI = Storage.Size 
+					- Index.Size 
+					- LastValuesCounter 
+					+ I;
+				if (SrcI == Index[LastValuesCounter])
+					LastValuesCounter--;
+				else
+					Storage[I++] = Dst[SrcI];
+			}
+		}
 	};
 }
