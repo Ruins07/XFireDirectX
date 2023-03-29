@@ -139,12 +139,16 @@
   <ItemGroup>
     <ClCompile Include="Arithmetic.ixx" />
     <ClCompile Include="Compute.ixx" />
-    <ClCompile Include="Effect.ixx" />
+    <ClCompile Include="EffectBinaryGraph.ixx" />
     <ClCompile Include="Engine.ixx" />
     <ClCompile Include="Graphics.ixx" />
+    <ClCompile Include="Level.ixx" />
+    <ClCompile Include="List.ixx" />
     <ClCompile Include="Memory.ixx" />
+    <ClCompile Include="Pass.ixx" />
     <ClCompile Include="Sort.ixx" />
     <ClCompile Include="Sync.ixx" />
+    <ClCompile Include="WideMemoryAllocator.ixx" />
     <ClCompile Include="Window.ixx" />
     <ClCompile Include="XFire.cpp" />
   </ItemGroup>

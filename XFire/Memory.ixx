@@ -9,6 +9,14 @@ export {
 	template<typename T = void>
 	using ref = T*;
 
+	constexpr int CacheLineSize = 64,
+		PointersPerCacheLine = CacheLineSize / sizeof(ref<>);
+	
+	template<typename T>
+	constexpr int ItemsPerCacheLine() {
+		return CacheLineSize / sizeof(T);
+	}
+
 	void Move(ref<byte> Src, ref<byte> Dst, int Size) {
 		for (int I = 0; I < Size; I++) Dst[I] = Src[I];
 	}
@@ -35,12 +43,7 @@ export {
 			auto DistanceToMin = Cursor - Min;
 			if (DistanceToMin <= 0) Cursor = Max - abs(DistanceToMin);
 		}
-	};
-	template<typename T>
-	struct IPass {
-		virtual ref<T> Item(int Step = 1, int SkipNext = 0) = 0;
-		virtual int Next(int Skip = 1) = 0;
-	};
+	}; 
 	template<typename T>
 	struct Array {
 		unsigned short Size;
@@ -95,25 +98,37 @@ export {
 			else {
 				auto OldSize = Storage.Size;
 				Storage = Array<T>(Storage, OldSize + Data.Size);
-				Move(Data.Items, Storage.Items[OldSize], Data.Size * sizeof(T))
+				Move(Data.Items, Storage.Items[OldSize], Data.Size * sizeof(T));
 			}
 		}
-		void Remove(Entry<int> Index, bool Sort = true) {
-			int LastValuesCounter = 0;
-			for (int I = Index.Size - 1; I >= 0; I--)
-				if (Index[I] >
-					Storage.Size - Index.Size - LastValuesCounter)
+		void Remove(Entry<int> Index, bool Sort) {
+			int LastValuesCounter = 0,
+				NewSize = Storage.Size - Index.Size;
+			auto NewStorage = Array<T>();
+			for (int I = Index.Size - 1; I > 0; I--)
+				if (Index[I] >= Storage.Size - Index.Size)
 					LastValuesCounter++;
-			for (int I = 0; I < Index.Size;) {
-				int SrcI = Storage.Size 
-					- Index.Size 
-					- LastValuesCounter 
-					+ I;
-				if (SrcI == Index[LastValuesCounter])
-					LastValuesCounter--;
-				else
-					Storage[I++] = Dst[SrcI];
+			int CopyCount = Index.Size - LastValuesCounter,
+				FillBegin = Storage.Size 
+							- Index.Size 
+							- LastValuesCounter,
+				CurrentRemoveWait = 0,
+				SrcOffset = 0;
+
+			for (int I = 0; I < Storage.Size; I++) {
+				if (I < CopyCount &&
+					I == Index[CurrentRemoveWait]) {
+					if(FillBegin + SrcOffset) 
+						NewStorage[I] = Storage[SrcOffset + I];
+
+					CurrentRemoveWait++;
+					SrcOffset++;
+				}
+				else NewStorage[I] = Storage[SrcOffset + I];
 			}
+
+			~Storage();
+			Storage = NewStorage;
 		}
 	};
 }

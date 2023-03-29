@@ -10,7 +10,7 @@ import Sync;
 
 export namespace Graphics {
     struct RenderContext {
-        CountableArray<bool> CPUFramesReady, GPUFramesClear;
+        ref<bool> CPUFramesReady, GPUFramesClear;
         ref<IDXGISwapChain> SwapChain;
         ref<ID3D12Device> Device;
         ref<ID3D12CommandQueue> CommandQueue;
@@ -189,8 +189,8 @@ export namespace Graphics {
             auto& RenderContext = Context->RenderContext;
             auto& FrameContext = RenderContext->Frames[Number];
             
-            RenderContext->GPUFramesClear[Number] = false;
-            RenderContext->GPUFramesClear.Count--;
+            /*RenderContext->GPUFramesClear[Number] = false;
+            RenderContext->GPUFramesClear.Count--;*/
 
             FrameContext.CommandAllocator[0]->Reset();
             FrameContext.CommandList[Number]->Reset(FrameContext.CommandAllocator[0], NULL);
@@ -199,7 +199,7 @@ export namespace Graphics {
         }
         void FrameReady(int FrameNumber = 0) {
             Context->RenderContext->GPUFramesClear[FrameNumber] = true;
-            Context->RenderContext->GPUFramesClear.Count++;
+            //Context->RenderContext->GPUFramesClear.Count++;
         }
     };
 }
