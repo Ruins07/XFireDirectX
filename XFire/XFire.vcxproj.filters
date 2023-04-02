@@ -74,10 +74,7 @@
     <ClCompile Include="Engine.ixx">
       <Filter>Исходные файлы\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Sort.ixx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="List.ixx">
+    <ClCompile Include="Sequence.ixx">
       <Filter>Исходные файлы\Core\Collecions</Filter>
     </ClCompile>
     <ClCompile Include="Memory.ixx">
@@ -86,16 +83,13 @@
     <ClCompile Include="Graphics.ixx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="WideMemoryAllocator.ixx">
-      <Filter>Исходные файлы\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="EffectBinaryGraph.ixx">
       <Filter>Исходные файлы\GraphicsLibrary\Effect\System</Filter>
     </ClCompile>
     <ClCompile Include="Level.ixx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Pass.ixx">
+    <ClCompile Include="Pool.ixx">
       <Filter>Исходные файлы\Core\Collecions</Filter>
     </ClCompile>
   </ItemGroup>

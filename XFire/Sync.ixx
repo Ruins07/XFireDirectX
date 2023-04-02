@@ -13,6 +13,8 @@ export namespace ASync {
 		virtual T Wait();
 		virtual T Await(bool ThisPointReturn = true);
 		virtual T ASync(ref<Handler<T>> Handler);
+
+		operator T() { return Wait(); }
 	};
 	template<typename T>
 	using Delay = DelayResult<T>;

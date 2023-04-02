@@ -1,4 +1,7 @@
+#define DEBUG
+
 export module Memory;
+export import Arithmetic;
 import <CMath>;
 import <initializer_list>;
 
@@ -17,20 +20,65 @@ export {
 		return CacheLineSize / sizeof(T);
 	}
 
-	void Move(ref<byte> Src, ref<byte> Dst, int Size) {
-		for (int I = 0; I < Size; I++) Dst[I] = Src[I];
+	template<typename T>
+	struct RangeInfo {
+		bool CountMode = false;
+		ref<T> Begin;
+		union {
+			ref<T> End;
+			int Count;
+		};
+
+		int CalculateSize() {
+			if (CountMode) return Count;
+			else return End - Begin;
+		}
+
+		ref<T> CalculateEnd() {
+			if (CountMode) return Begin + Count;
+			else return End;
+		}
+
+		RangeInfo(ref<T> Begin, ref<T> End)
+			: Begin(Begin), End(End), CountMode(false) { }
+		RangeInfo(ref<T> Begin, int Count)
+			: Begin(Begin), Count(Count), CountMode(true) { }
+	};
+
+
+	void Move(
+		__restrict ref<byte> Src, 
+		__restrict ref<byte> Dst,
+		int Size) {
+
+		ref<byte>
+			NewSrc = Src + Size,
+			NewDst = Dst + Size;
+		while(NewSrc > Src)
+			*Dst-- = *Src--;
+	}
+	template<typename T>
+	void Move(
+		__restrict ref<T> Src,
+		__restrict ref<T> Dst, 
+		int Count) {
+
+		Move((ref<>)Src, (ref<>)Dst, Count * sizeof(T));
+	}
+	template<typename T>
+	void VirtualMove(
+		__restrict ref<T> Src,
+		__restrict ref<T> Dst, 
+		int Count) {
+
+		ref<T>
+			NewSrc = Src + Count,
+			NewDst = Dst + Count;
+		while (NewSrc > Src)
+			*Dst-- = *Src--;
 	}
 
-	template<typename T = void>
-	using ImmidiateValue = ref<ref<T>>;
 	template<typename T>
-	ImmidiateValue<void> Unified(ImmidiateValue<T> Specific) {
-		return const_cast<ImmidiateValue<void>>(Specific);
-	}
-	template<typename T>
-	ref<void> Unified(ref<T> Specific) {
-		return const_cast<ref<void>>(Specific);
-	}
 	struct RingEnumerator {
 		short Min = 0, Max = 0x7FFF, Cursor = 0;
 		void Inc(int Step = 1) {
@@ -55,8 +103,9 @@ export {
 			else Items = nullptr;
 		}
 		Array(ref<Array> Src, int NewSize) {
+			auto Border = min(Src->Size, NewSize);
 			Items = new T[NewSize];
-			Move(Src->Items, Items, NewSize * sizeof(T));
+			Move<T>(Src->Items, Items, Border);
 		}
 		~Array() {
 			delete Items;
@@ -82,53 +131,11 @@ export {
 			this->Size = 1;
 		}
 		operator T() {
-			#ifdef Debug
+			#ifdef DEBUG
 			if (!One()) throw;
 			#endif
 			return this[0];
 		}
 		bool One() { return this->Size == 1; }
-	};
-	template<typename T>
-	struct Pool {
-		Array<T> Storage = Array<T>();
-		void Add(Entry<T> Data) {
-			if (Storage.Size == 0)
-				Storage = Array<T>(Data.Size);
-			else {
-				auto OldSize = Storage.Size;
-				Storage = Array<T>(Storage, OldSize + Data.Size);
-				Move(Data.Items, Storage.Items[OldSize], Data.Size * sizeof(T));
-			}
-		}
-		void Remove(Entry<int> Index, bool Sort) {
-			int LastValuesCounter = 0,
-				NewSize = Storage.Size - Index.Size;
-			auto NewStorage = Array<T>();
-			for (int I = Index.Size - 1; I > 0; I--)
-				if (Index[I] >= Storage.Size - Index.Size)
-					LastValuesCounter++;
-			int CopyCount = Index.Size - LastValuesCounter,
-				FillBegin = Storage.Size 
-							- Index.Size 
-							- LastValuesCounter,
-				CurrentRemoveWait = 0,
-				SrcOffset = 0;
-
-			for (int I = 0; I < Storage.Size; I++) {
-				if (I < CopyCount &&
-					I == Index[CurrentRemoveWait]) {
-					if(FillBegin + SrcOffset) 
-						NewStorage[I] = Storage[SrcOffset + I];
-
-					CurrentRemoveWait++;
-					SrcOffset++;
-				}
-				else NewStorage[I] = Storage[SrcOffset + I];
-			}
-
-			~Storage();
-			Storage = NewStorage;
-		}
 	};
 }

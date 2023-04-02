@@ -143,12 +143,10 @@
     <ClCompile Include="Engine.ixx" />
     <ClCompile Include="Graphics.ixx" />
     <ClCompile Include="Level.ixx" />
-    <ClCompile Include="List.ixx" />
+    <ClCompile Include="Sequence.ixx" />
     <ClCompile Include="Memory.ixx" />
-    <ClCompile Include="Pass.ixx" />
-    <ClCompile Include="Sort.ixx" />
+    <ClCompile Include="Pool.ixx" />
     <ClCompile Include="Sync.ixx" />
-    <ClCompile Include="WideMemoryAllocator.ixx" />
     <ClCompile Include="Window.ixx" />
     <ClCompile Include="XFire.cpp" />
   </ItemGroup>
